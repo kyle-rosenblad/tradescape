@@ -1,6 +1,6 @@
 #' The 'tradescape' package.
 #'
-#' @description A DESCRIPTION OF THE PACKAGE
+#' @description Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data
 #'
 #' @docType package
 #' @name tradescape-package

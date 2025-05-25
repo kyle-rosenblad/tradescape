@@ -1,8 +1,8 @@
 Package: tradescape
-Title: What the Package Does (One Line, Title Case)
+Title: Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
+    person("Kyle", "Rosenblad", , "kyle_rosenblad@berkeley.edu", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license

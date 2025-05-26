@@ -1,5 +1,7 @@
 Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data.
 
+To install, first follow the rstan installation instructions: (https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started). Then, in R, run install.packages(“devtools”), then devtools::install_github(“kyle-rosenblad/tradescape”).
+
 In development. Please don't hesitate to reach out with ideas or bug reports!
 
 A core question in ecology and evolutionary biology is how multidimensional environmental gradients shape evolutionary adaptation. For example, do genetic variants that increase fitness in dry conditions tend to increase or decrease fitness in cold conditions? The answers hold important implications for conservation strategies like assisted gene flow under climate change. E.g., does importing drought-resistant genotypes increase or decrease population vulnerability to cold snaps?

@@ -2,7 +2,7 @@
 #'
 #' @description Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data
 #'
-#' @docType package
+#' @docType _PACKAGE
 #' @name tradescape-package
 #' @aliases tradescape
 #' @useDynLib tradescape, .registration = TRUE

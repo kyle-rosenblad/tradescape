@@ -1,4 +1,4 @@
-#' Network models of interspecific competition with presence-absence data
+#' Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients
 #'
 #' @export
 #' @param allele_count Integer vector, in which each element represents the count of the reference allele for one individual at one SNP.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/buildtradescape.R
 \name{buildtradescape}
 \alias{buildtradescape}
-\title{Network models of interspecific competition with presence-absence data}
+\title{Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients}
 \usage{
 buildtradescape(
   allele_count,
@@ -45,7 +45,7 @@ buildtradescape(
 A stan model object; check back soon for more information.
 }
 \description{
-Network models of interspecific competition with presence-absence data
+Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients
 }
 \details{
 In development; check back soon. See README at github.com/kyle-rosenblad/tradescape.

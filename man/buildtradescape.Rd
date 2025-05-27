@@ -53,7 +53,8 @@ In development; check back soon. See README at github.com/kyle-rosenblad/tradesc
 \examples{
 
 data(ex_data)
-Quick demo run. Will prompt warnings about insufficient posterior sampling.
+
+# Quick demo run. Will prompt warnings about insufficient posterior sampling.
 mod <- buildtradescape(allele_count=ex_data$allele_count,
                       snp_idx=ex_data$snp_idx,
                       site_idx=ex_data$site_idx,

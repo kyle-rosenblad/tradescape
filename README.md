@@ -34,14 +34,16 @@ To answer our core questions--e.g., "Do alleles that increase with temperature t
 
 Individuals are nested within sites: *j* ∈ *k*
 
-**Response Variable**
+
+### Response Variable
 
 For each SNP *i* and individual *j*:*y*ᵢⱼ ~ Binomial(4, *p*ᵢⱼ)
 
 where *y*ᵢⱼ is the count of reference alleles (out of 4 trials) and
 *p*ᵢⱼ is the reference allele frequency.
 
-**Linear Predictor**
+
+### Linear Predictor
 
 The linear predictor for the logit-transformed probability:
 
@@ -57,7 +59,8 @@ where:
 
 *γ*ᵢₖ: the spatial random effect for SNP *i* at site *k*
 
-**Random Effects**
+
+### Random Effects
 
 **SNP-level random intercepts**: *α*ᵢ ~ N(0, *σ*²), *i* = 1, ..., *I*
 

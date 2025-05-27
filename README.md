@@ -1,4 +1,4 @@
-# Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data
+# tradescape: hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data
 
 
 ## Installation

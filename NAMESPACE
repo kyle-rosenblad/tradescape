@@ -3,6 +3,7 @@
 export(buildtradescape)
 import(Rcpp)
 import(methods)
+import(rstantools)
 importFrom(RcppParallel,RcppParallelLibs)
 importFrom(rstan,sampling)
 importFrom(rstantools,rstan_config)

@@ -8,6 +8,7 @@
 #' @useDynLib tradescape, .registration = TRUE
 #' @import methods
 #' @import Rcpp
+#' @import rstantools
 #' @importFrom rstan sampling
 #' @importFrom rstantools rstan_config
 #' @importFrom RcppParallel RcppParallelLibs

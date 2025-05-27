@@ -6,6 +6,8 @@ To install, first follow the rstan installation instructions: (https://github.co
 
 In development. Please don't hesitate to reach out with ideas or bug reports!
 
+
+## Motivation
 A core question in ecology and evolutionary biology is how multidimensional environmental gradients shape evolutionary adaptation. For example, do genetic variants that increase fitness in dry conditions tend to increase or decrease fitness in cold conditions? The answers hold important implications for conservation strategies like assisted gene flow under climate change. E.g., does importing drought-resistant genotypes increase or decrease population vulnerability to cold snaps?
 
 tradescape is designed for exploring these types of questions with biallelic SNP data--i.e., genomic data for some number of individuals across some number of geographic sampling sites, such that some individuals have one allele at a given point in the genome, and other individuals have a different allele. In this scenario, we can cautiously infer patterns of natural selection through principled modeling of the relationship between environmental conditions and allele frequencies. The core assumption is that, if we've structured our model well, associations between allele frequencies and environmental gradients reflect selection patterns.
@@ -20,7 +22,7 @@ To answer our core questions--e.g., "Do alleles that increase with temperature t
 
 ## Full model
 
-**Data Structure**
+### Data Structure
 
 **Environment variables**: indexed by *m* = 1, ..., *M*
 

@@ -1,4 +1,4 @@
-Hierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data.
+**textHierarchical Bayesian modeling of local adaptation to multidimensional environmental gradients with SNP data.**
 
 To install, first follow the rstan installation instructions: (https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started). Then, in R, run install.packages(“devtools”), then devtools::install_github(“kyle-rosenblad/tradescape”).
 

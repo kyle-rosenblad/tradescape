@@ -7,20 +7,24 @@ To install, first follow the rstan installation instructions: (https://github.co
 In development. Please don't hesitate to reach out with ideas or bug reports!
 
 
+
 ## Motivation
 A core question in ecology and evolutionary biology is how multidimensional environmental gradients shape evolutionary adaptation. For example, do genetic variants that increase fitness in dry conditions tend to increase or decrease fitness in cold conditions? The answers hold important implications for conservation strategies like assisted gene flow under climate change. E.g., does importing drought-resistant genotypes increase or decrease population vulnerability to cold snaps?
 
 tradescape is designed for exploring these types of questions with biallelic SNP data--i.e., genomic data for some number of individuals across some number of geographic sampling sites, such that some individuals have one allele at a given point in the genome, and other individuals have a different allele. In this scenario, we can cautiously infer patterns of natural selection through principled modeling of the relationship between environmental conditions and allele frequencies. The core assumption is that, if we've structured our model well, associations between allele frequencies and environmental gradients reflect selection patterns.
 
 
+
 ## Quick-start:
 Run vignette("Intro-to-tradescape", package = "tradescape") or see [Intro vignette](https://github.com/kyle-rosenblad/tradescape/blob/master/vignettes/Intro-to-tradescape.Rmd) for a bare-bones startup guide.
+
 
 
 ## Semi-technical summary
 The response variable is the count of the reference allele for one SNP in one individual. We can think of each SNP as having its own sub-model. This sub-model is essentially a logit GLMM with a binomial response variable, which is the mean frequency of the reference allele for the focal SNP. (A beta-binomial version is coming soon. These are helpful for handling certain technical problems that sometimes arise in binomial models.) The key terms in the linear predictor describe the effects of our environmental variables of interest (e.g., temperature, precipitation, etc.) on the reference allele frequency for the focal SNP. Each environmental variable has a linear effect size (on the logit scale) indicating how strongly the mean reference allele frequency increases or decreases with the that variable. Other terms in the linear predictor include a SNP-level intercept (these are drawn from a shared distribution across SNPs) and a spatial Gaussian process--i.e., a flexibly shaped smooth function--designed to account for what we might call "isolation by distance" or "neutral demographic history".
 
 To answer our core questions--e.g., "Do alleles that increase with temperature tend to increase or decrease with precipitation?"--we have to zoom out to the level of the whole data set. At this level, we are modeling associations among the effect sizes for different environmental variables across SNPs. For example, if alleles that increase in frequency with temperature tend to decrease in frequency with precipitation, then our posterior estimates would show a negative correlation between the SNP-level effect sizes for these two environmental variables. (These assocations are modeled using a multivariate normal distribution, from which we can derive a correlation matrix.)
+
 
 
 ## Full model

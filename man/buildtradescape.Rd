@@ -60,6 +60,8 @@ mod <- buildtradescape(allele_count=ex_data$allele_count,
                       site_idx=ex_data$site_idx,
                       envdata=ex_data$envdata,
                       coords=ex_data$coords,
-                      ploidy=ex_data$ploidy)
+                      ploidy=ex_data$ploidy,
+                      warmup=100,
+                      iter=200)
 
 }

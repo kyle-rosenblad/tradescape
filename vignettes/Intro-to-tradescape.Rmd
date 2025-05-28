@@ -1,0 +1,114 @@
+---
+title: "Intro to 'tradescape'"
+author: "[Kyle Rosenblad](https://www.kylerosenblad.org/)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to 'tradescape'}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tradescape)
+```
+
+# Introduction
+
+A core question in ecology and evolutionary biology is how multidimensional environmental gradients shape evolutionary adaptation. For example, do genetic variants that increase fitness in dry conditions tend to increase or decrease fitness in cold conditions? The answers hold important implications for conservation strategies like assisted gene flow under climate change. E.g., does importing drought-resistant genotypes increase or decrease population vulnerability to cold snaps?
+
+tradescape is designed for exploring these types of questions with biallelic SNP data--i.e., genomic data for some number of individuals across some number of geographic sampling sites, such that some individuals have one allele at a given point in the genome, and other individuals have a different allele. In this scenario, we can cautiously infer patterns of natural selection through principled modeling of the relationship between environmental conditions and allele frequencies. The core assumption is that, if we've structured our model well, associations between allele frequencies and environmental gradients reflect selection patterns.
+
+# Model structure
+In our model, the response variable is the count of the reference allele for one SNP in one individual. We can think of each SNP as having its own sub-model within the larger model spanning all SNPs. Each SNP's sub-model is essentially a logit GLMM with a binomial response variable, which is the mean frequency of the reference allele for the focal SNP. The key terms in the linear predictor describe the effects of our environmental variables of interest (e.g., temperature, precipitation, etc.) on the reference allele frequency for the focal SNP. Each environmental variable has a linear effect size (on the logit scale) indicating how strongly the mean reference allele frequency for this SNP increases or decreases with the that variable. Other terms in the linear predictor include a SNP-level intercept (these are drawn from a shared distribution across SNPs in the overall model) and a spatial Gaussian process--i.e., a flexibly shaped smooth function--designed to account for what we might call "isolation by distance" or "neutral demographic history".
+
+To answer our core questions--e.g., "Do alleles that increase with temperature tend to increase or decrease with precipitation?"--we have to zoom out to the level of the whole data set. At this level, we are modeling associations among the effect sizes for different environmental variables across SNPs. For example, if alleles that increase in frequency with temperature tend to decrease in frequency with precipitation, then our posterior estimates would show a negative correlation between the SNP-level effect sizes for these two environmental variables. These assocations are modeled using a multivariate normal distribution, from which we can derive a correlation matrix.
+
+See [README](https://github.com/kyle-rosenblad/tradescape/blob/master/README.md) for the full model structure.
+
+Let's run a quick model fit with the built-in example data:
+
+# Data prep
+
+```{r}
+set.seed(287) # Ensure reproducibility
+
+# Load example data, a list object:
+data("ex_data")
+
+# View the names of the list elements:
+names(ex_data)
+```
+
+allele_count is a an integer vector, in which each element represents the count of the reference allele for one individual (from one geographic sampling site) at one SNP in the genome:
+```{r}
+head(ex_data$allele_count)
+```
+
+snp_idx is another integer vector of same length as allele_count, serving as an index that indicates which SNP each value of allele_count pertains to:
+```{r}
+head(ex_data$snp_idx)
+```
+
+site_idx is another integer vector of same length as allele_count, serving as an index that indicates which geographic sampling site each value of allele_count pertains to:
+```{r}
+head(ex_data$site_idx)
+```
+
+envdata is a matrix of real values, in which rows represent individual organisms–not sampling sites–and columns represent environmental variables to be used as predictors of allele frequencies. Since one row represents one individual organism, the envdata values just represent the environmental conditions at the site where that individual was sampled:
+```{r}
+head(ex_data$envdata)
+```
+
+coords is a matrix of real values, in which rows represent geographic sampling sites, and columns represent x and y geographic coordinates. This will help us fit the spatial smooth function that helps to account for what we might call "isolation by distance" or "neutral demographic history"--factors that could otherwise yield false signals of local adaptation:
+```{r}
+head(ex_data$coords)
+```
+
+ploidy is a single representing the ploidy of the individuals in the data set–i.e., the maximum possible value for each element in allele_count. Inter-individual and inter-SNP variation in ploidy are not currently supported but will be incorporated into a forthcoming release.
+```{r}
+ex_data$ploidy
+```
+
+These are all the ingredients we need for a 'tradescape' model. Let's run a quick fit:
+
+```{r}
+mod <- buildtradescape(allele_count=ex_data$allele_count,
+                       snp_idx=ex_data$snp_idx,
+                       site_idx=ex_data$site_idx,
+                       envdata=ex_data$envdata,
+                       coords=ex_data$coords,
+                       ploidy=ex_data$ploidy,
+                       warmup=100,
+                       iter=200)
+```
+
+These warnings basically just tell us we didn't run the model long enough. The output from Stan (the model-building software under the hood of 'tradescape') provides useful links on how to handle this. We'll ignore this for now, since this is just a quick demo run.
+
+Let's visualize the key result--the correlation matrix among effect sizes for our environmental variables:
+
+```{r}
+modcorrs <- rstan::extract(mod, pars="R_pop")[[1]]
+
+# This object is an array, with the first dimension representing the number of posterior
+# draws we took when we fit the model. The second and third dimensions reflect the
+# number of environmental variables we used. In this case, we only used two environment
+# variables, so we can just view a density plot (like a fancy histogram) for the
+# correlation between effect sizes for these two variables.
+plot(density(modcorrs[,1,2]),
+     main = "",
+     xlab = "Correlation: env1 & env2\nEffects on Allele Frequencies",
+     ylab = "Density",
+     col = "blue",
+     lwd = 2)
+```
+
+Looks like we've got strong evidence for a positive correlation between allelic responses to env1 and env2, our two environmental variables. This means alleles that increase in frequency with env1 also tend to increase in frequency with env2. Depending on how you expect environmental conditions to change in the future, and/or the management actions being considered, you might view this as a "tradeoff" or a "synergy". For example, if both variables are expected to increase in the future, you might view this as a "synergy", since adapting to an increase in env1 will also provide fitness benefits when env2 increases.
+
+There's a lot more to unpack and diagnose in a 'tradescape' model. This will be addressed soon in additional vignettes.
